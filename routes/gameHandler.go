@@ -18,7 +18,7 @@ var upgrader = websocket.Upgrader{
 }
 
 func GameHandler(c *gin.Context) {
-	tmpl, err := template.ParseFiles("./templates/assets/gamepage.html")
+	tmpl, err := template.ParseFiles("./assets/gamepage.html")
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("Ошибка при загрузке шаблона: %s", err))
 		return

@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -64,10 +66,17 @@ func MainHandler(c *gin.Context) {
 }
 
 func InitializeRoutes() *gin.Engine {
+
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	r := gin.Default()
-	r.Static("/static/", "./assets")
+	r.Static("/assets", dir+"/assets")
 	r.GET("/", MainHandler)
 	r.GET("/survey", SurveyHandler)
+	r.GET("/game",GameHandler)
 
 	return r
 }
