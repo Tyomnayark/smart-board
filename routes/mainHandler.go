@@ -31,12 +31,10 @@ func GetProjectRoot() string {
 func MainHandler(c *gin.Context) {
 	var news []News
 
-	currentDir, err := os.Getwd()
-	if err != nil {
-		// Обработка ошибки
-	}
+	// currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
-	filePath := filepath.Join(currentDir, "news.json")
+	filePath := filepath.Join(GetProjectRoot() + "/news.json")
+
 	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Ошибка при открытии файла:", err)
@@ -59,7 +57,7 @@ func MainHandler(c *gin.Context) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles(currentDir + "/assets/index.html")
+	tmpl, err := template.ParseFiles(GetProjectRoot() + "/assets/index.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при загрузке HTML шаблона"})

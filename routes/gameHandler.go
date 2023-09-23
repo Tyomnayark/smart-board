@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -18,12 +18,9 @@ var upgrader = websocket.Upgrader{
 }
 
 func GameHandler(c *gin.Context) {
-	currentDir, err := os.Getwd()
-	if err != nil {
-		// Обработка ошибки
-	}
+	// currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
-	tmpl, err := template.ParseFiles(currentDir + "/assets/gamepage.html")
+	tmpl, err := template.ParseFiles(GetProjectRoot() + "/assets/gamepage.html")
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("Ошибка при загрузке шаблона: %s", err))
 		return

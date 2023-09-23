@@ -22,11 +22,7 @@ type Survey struct {
 func SurveyHandler(c *gin.Context) {
 	var survey []Survey
 
-	currentDir, err := os.Getwd()
-	if err != nil {
-		// Обработка ошибки
-	}
-	file, err := os.Open(currentDir + "/question.json")
+	file, err := os.Open(GetProjectRoot() + "/question.json")
 	defer file.Close()
 	if err != nil {
 		fmt.Println("Ошибка при открытии файла:", err)
@@ -41,7 +37,7 @@ func SurveyHandler(c *gin.Context) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles(currentDir + "/assets/surveypage.html")
+	tmpl, err := template.ParseFiles(GetProjectRoot() + "/assets/surveypage.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при загрузке HTML шаблона"})
