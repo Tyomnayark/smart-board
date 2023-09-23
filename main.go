@@ -1,8 +1,18 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
 	"smart-board/routes"
 )
+
+func GetProjectRoot() string {
+	projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	}
+	return projectRoot
+}
 
 func main() {
 	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./templates"))))

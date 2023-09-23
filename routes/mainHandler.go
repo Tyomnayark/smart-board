@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -21,10 +20,24 @@ type News struct {
 	Text  string `json:"text"`
 }
 
+func GetProjectRoot() string {
+	projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	}
+	return projectRoot
+}
+
 func MainHandler(c *gin.Context) {
 	var news []News
 
-	file, err := os.Open("news.json")
+	currentDir, err := os.Getwd()
+	if err != nil {
+		// Обработка ошибки
+	}
+
+	filePath := filepath.Join(currentDir, "news.json")
+	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Ошибка при открытии файла:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при открытии файла"})
@@ -46,7 +59,7 @@ func MainHandler(c *gin.Context) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles("./assets/index.html")
+	tmpl, err := template.ParseFiles(currentDir + "/assets/index.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при загрузке HTML шаблона"})
@@ -66,17 +79,13 @@ func MainHandler(c *gin.Context) {
 }
 
 func InitializeRoutes() *gin.Engine {
-
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
+	// dir := GetProjectRoot()
 
 	r := gin.Default()
-	r.Static("/assets", dir+"/assets")
+	r.Static("/assets/", "./assets")
 	r.GET("/", MainHandler)
 	r.GET("/survey", SurveyHandler)
-	r.GET("/game",GameHandler)
+	r.GET("/game", GameHandler)
 
 	return r
 }
