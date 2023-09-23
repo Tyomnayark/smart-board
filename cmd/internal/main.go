@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"tracker/routes"
+	"smart-board/routes"
 )
 
 func main() {
