@@ -13,9 +13,8 @@ func main() {
 	// fmt.Println("Server starts at: http://localhost:8080/")
 	// http.ListenAndServe(":8080", nil)
 	r := routes.InitializeRoutes()
-	s := routes.PostSurvey()
 	fmt.Println("Server starts at: http://localhost:8080/")
 	r.Run(":8080")
-	s.Run(":8080")
-
+	
+	
 }

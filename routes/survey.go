@@ -20,7 +20,7 @@ type Survey struct {
 }
 
 func SurveyHandler(c *gin.Context) {
-	var survey Survey
+	var survey[] Survey
 	file, err := os.Open("question.json")
 	defer file.Close()
 	if err != nil {
@@ -36,7 +36,7 @@ func SurveyHandler(c *gin.Context) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles("./templates/assets/index.html")
+	tmpl, err := template.ParseFiles("./assets/surveypage.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при загрузке HTML шаблона"})
@@ -55,21 +55,21 @@ func SurveyHandler(c *gin.Context) {
 	}
 }
 
-func SurveyRoutes() *gin.Engine {
-	r := gin.Default()
+// func SurveyRoutes() *gin.Engine {
+// 	r := gin.Default()
 
-	r.GET("/survey", MainHandler)
+// 	r.GET("/survey", SurveyHandler)
 
-	return r
-}
+// 	return r
+// }
 
-func PostSurvey() *gin.Engine {
-	r := gin.Default()
+// func PostSurvey() *gin.Engine {
+// 	r := gin.Default()
 
-	r.POST("/survey", SurveyHandler )
+// 	r.POST("/survey", SurveyHandler )
 
-	return r
-}
+// 	return r
+// }
 
 
 

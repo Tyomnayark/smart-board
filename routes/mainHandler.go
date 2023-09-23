@@ -44,7 +44,7 @@ func MainHandler(c *gin.Context) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles("./templates/assets/index.html")
+	tmpl, err := template.ParseFiles("./assets/index.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при загрузке HTML шаблона"})
@@ -67,6 +67,7 @@ func InitializeRoutes() *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/", MainHandler)
+	r.GET("/survey", SurveyHandler)
 
 	return r
 }
