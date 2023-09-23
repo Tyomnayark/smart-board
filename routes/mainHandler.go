@@ -3,10 +3,10 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"html/template"
 )
 
 type News struct {
@@ -20,7 +20,7 @@ type News struct {
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 	var news []News
 
-	file, err := os.Open("smart-board/news.json")
+	file, err := os.Open("news.json")
 	if err != nil {
 		fmt.Println("Ошибка при открытии файла:", err)
 		return
@@ -39,7 +39,7 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles("./assets/index.html")
+	tmpl, err := template.ParseFiles("./templates/assets/index.html")
 	if err != nil {
 		fmt.Println("3а:", err)
 		return

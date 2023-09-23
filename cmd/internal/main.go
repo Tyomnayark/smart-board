@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./assets"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./templates"))))
 	http.HandleFunc("/", routes.MainHandler)
 	// http.HandleFunc("/game", routes.gameHandler)
 	// http.HandleFunc("/map", routes.mapHandler)
