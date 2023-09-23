@@ -2,15 +2,20 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"smart-board/routes"
 )
 
 func main() {
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./templates"))))
-	http.HandleFunc("/", routes.MainHandler)
-	// http.HandleFunc("/game", routes.gameHandler)
-	// http.HandleFunc("/map", routes.mapHandler)
+	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./templates"))))
+	// http.HandleFunc("/", routes.MainHandler)
+	// http.HandleFunc("/game", routes.GameHandler)
+	// http.HandleFunc("/survey",routes.SurveyHandler)
+	// fmt.Println("Server starts at: http://localhost:8080/")
+	// http.ListenAndServe(":8080", nil)
+	r := routes.InitializeRoutes()
+	s := routes.PostSurvey()
 	fmt.Println("Server starts at: http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	r.Run(":8080")
+	s.Run(":8080")
+
 }
