@@ -65,7 +65,7 @@ func MainHandler(c *gin.Context) {
 
 func InitializeRoutes() *gin.Engine {
 	r := gin.Default()
-
+	r.Static("/static/", "./assets")
 	r.GET("/", MainHandler)
 	r.GET("/survey", SurveyHandler)
 
