@@ -1,55 +1,46 @@
 package routes
 
 import (
-	"fmt"
-	"html/template"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-
+		// Можете настроить проверку origin, если необходимо
 		return true
 	},
 }
 
-func GameHandler(c *gin.Context) {
+func CreateWebSocketRouter() http.Handler {
+	http.Handle("/ws", http.HandlerFunc(handleWebSocketConnection))
 
-	tmpl, err := template.ParseFiles(GetProjectRoot() + "/assets/gamepage.html")
-	if err != nil {
-		c.String(http.StatusInternalServerError, fmt.Sprintf("Ошибка при загрузке шаблона: %s", err))
-		return
-	}
-
-	if err := tmpl.Execute(c.Writer, nil); err != nil {
-		c.String(http.StatusInternalServerError, fmt.Sprintf("Ошибка при выполнении шаблона: %s", err))
-		return
-	}
+	return http.DefaultServeMux
 }
 
-func WebSocketHandler(c *gin.Context) {
-	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+func handleWebSocketConnection(w http.ResponseWriter, r *http.Request) {
+	// Попытка обновления HTTP-запроса до WebSocket-соединения
+	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		fmt.Println("Ошибка при установке WebSocket-соединения:", err)
+		// Обработка ошибки при обновлении
 		return
 	}
 	defer conn.Close()
 
+	// Обработка WebSocket-соединения
 	for {
 		// Чтение сообщения от клиента
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("Ошибка при чтении сообщения:", err)
+			// Обработка ошибки чтения
 			return
 		}
 
-		// Обработка сообщения, например, отправка его другим клиентам
-		// В данном примере, просто отправляем обратно то же сообщение
+		// Обработка сообщения, например, отправка его обратно клиенту
 		if err := conn.WriteMessage(messageType, p); err != nil {
-			fmt.Println("Ошибка при отправке сообщения:", err)
+			// Обработка ошибки отправки
 			return
 		}
 	}

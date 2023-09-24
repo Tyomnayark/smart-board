@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"smart-board/routes"
+
+	"net/http"
 )
 
 func GetProjectRoot() string {
@@ -22,19 +24,18 @@ func main() {
 	// fmt.Println("Server starts at: http://localhost:8080/")
 	// http.ListenAndServe(":8080", nil)
 
-	// Create gin app
-
 	r := routes.InitializeRoutes()
-	r.Run(":8080")
-	// t := gin.Default()
+	websocketRouter := routes.CreateWebSocketRouter()
 
-	// r.Static("/assets", dir+"/assets")
+    go func() {
+        if err := r.Run(":8080"); err != nil {
+            panic(err)
+        }
+    }()
 
-	// t.LoadHTMLGIob(dir + "/templates/*")
+    http.Handle("/ws", websocketRouter) 
 
-	// r.GET ("/", controllers. NotesIndex)
-	// r.POST ("/", controllers. NoteCreate)
-
-	// Start app
-
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        panic(err)
+    }
 }

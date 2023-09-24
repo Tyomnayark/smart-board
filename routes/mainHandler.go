@@ -91,12 +91,10 @@ func InitializeRoutes() *gin.Engine {
 	r.Static("/assets/", "./assets")
 	r.GET("/", MainHandler)
 	r.GET("/survey", SurveyHandler)
-	r.GET("/game", WebSocketHandler)
 	r.GET("/api/:id", getItem)
 	r.GET("/api/", GetAll)
 	r.POST("/api", createItem)
 	r.PUT("/api/:id", updateItem)
 	r.DELETE("api/:id", deleteItem)
-
 	return r
 }
