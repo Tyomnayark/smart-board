@@ -4,8 +4,6 @@ import (
 	"os"
 	"path/filepath"
 	"smart-board/routes"
-
-	"net/http"
 )
 
 func GetProjectRoot() string {
@@ -25,17 +23,17 @@ func main() {
 	// http.ListenAndServe(":8080", nil)
 
 	r := routes.InitializeRoutes()
-	websocketRouter := routes.CreateWebSocketRouter()
+	//websocketRouter := routes.CreateWebSocketRouter()
 
-    go func() {
-        if err := r.Run(":8080"); err != nil {
-            panic(err)
-        }
-    }()
+	// go func() {
+	//     if err := r.Run(":8080"); err != nil {
+	//         panic(err)
+	//     }
+	// }()
 
-    http.Handle("/ws", websocketRouter) 
-
-    if err := http.ListenAndServe(":8080", nil); err != nil {
-        panic(err)
-    }
+	// http.Handle("/ws", websocketRouter)
+	r.Run(":8080")
+	// if err := http.ListenAndServe(":8080", nil); err != nil {
+	//     panic(err)
+	// }
 }
