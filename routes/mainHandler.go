@@ -21,18 +21,18 @@ type News struct {
 }
 
 func GetProjectRoot() string {
-	// projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// return projectRoot
-
-	dir, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
-	return dir
+	return projectRoot
+
+	// dir, err := os.Getwd()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// return dir
 
 }
 
