@@ -17,6 +17,7 @@ type Survey struct {
 	Name      string `json:"name"`
 	Date      int    `json:"date"`
 	Questions string `json:"text"`
+	
 }
 
 func SurveyHandler(c *gin.Context) {

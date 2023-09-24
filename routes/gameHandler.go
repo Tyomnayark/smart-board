@@ -11,14 +11,12 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		// Здесь вы можете установить политику проверки Origin, если это необходимо.
-		// Например, вы можете разрешить только запросы с определенных доменов.
+
 		return true
 	},
 }
 
 func GameHandler(c *gin.Context) {
-	// currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
 	tmpl, err := template.ParseFiles(GetProjectRoot() + "/assets/gamepage.html")
 	if err != nil {

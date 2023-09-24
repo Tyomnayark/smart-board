@@ -21,11 +21,19 @@ type News struct {
 }
 
 func GetProjectRoot() string {
-	projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	// projectRoot, err := filepath.Abs(filepath.Dir(os.Args[0]))
+
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// return projectRoot
+
+	dir, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
-	return projectRoot
+	return dir
+
 }
 
 func MainHandler(c *gin.Context) {
@@ -83,7 +91,12 @@ func InitializeRoutes() *gin.Engine {
 	r.Static("/assets/", "./assets")
 	r.GET("/", MainHandler)
 	r.GET("/survey", SurveyHandler)
-	r.GET("/game", GameHandler)
+	r.GET("/game", WebSocketHandler)
+	r.GET("/api/:id", getItem)
+	r.GET("/api/", GetAll)
+	r.POST("/api", createItem)
+	r.PUT("/api/:id", updateItem)
+	r.DELETE("api/:id", deleteItem)
 
 	return r
 }
